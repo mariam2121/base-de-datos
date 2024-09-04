@@ -1,0 +1,27 @@
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const Schema = mongoose.Schema;
+
+
+const usuarioSchema = new Schema({
+  nombre: { type: String, required: true },
+  contraseña: { type: String, required: true }
+});
+
+
+
+const salt = await bcrypt.genSalt(10); 
+const hashedPassword = await bcrypt.hash(usuario.contraseña, salt); 
+usuario.contraseña = hashedPassword;
+    
+
+
+
+usuarioSchema.methods.comparePassword = (candidatePassword) =>{
+  return bcrypt.compare(candidatePassword, this.contraseña);
+};
+
+const Usuario = mongoose.model('Usuario', usuarioSchema);
+
+module.exports = Usuario;
+
